@@ -1,4 +1,4 @@
-import { getCategoryColor, getCategoryLabel } from '@/lib/categories';
+import { getCategoryColor, getCategoryLabel } from '@/theme/categories';
 
 interface CategoryBadgeProps {
   category: string;

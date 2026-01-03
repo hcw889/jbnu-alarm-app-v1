@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-// 백엔드 API 주소 (나중에 배포할 때 여기만 바꾸면 됨)
-const API_BASE_URL = "http://localhost:8000";
+// 백엔드 API 주소 (환경 변수에서 가져옴)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 5000, // 5초 이상 응답 없으면 에러
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -26,9 +26,9 @@ export interface Notice {
 export const fetchNotices = async (
   page: number = 0,
   limit: number = 20,
-  includeRead: boolean = false // 기본값: 안 읽은 공지만 조회
+  includeRead: boolean = false, // 기본값: 안 읽은 공지만 조회
 ) => {
-  const response = await api.get<Notice[]>("/notices", {
+  const response = await api.get<Notice[]>('/notices', {
     params: {
       skip: page * limit,
       limit,
@@ -40,7 +40,7 @@ export const fetchNotices = async (
 
 // 수동 크롤링 트리거
 export const triggerCrawl = async () => {
-  return api.post("/notices/crawl");
+  return api.post('/notices/crawl');
 };
 
 // 공지사항 읽음 처리
@@ -55,7 +55,7 @@ export const markNoticeAsRead = async (noticeId: number) => {
 
 // 사용자 설정 조회
 export const fetchUserConfig = async () => {
-  const response = await api.get<{ include_read: boolean }>('/user/config');
+  const response = await api.get<{ include_read: boolean }>('/notices/config');
   return response.data;
 };
 
@@ -64,7 +64,7 @@ export const updateUserConfig = async (includeRead: boolean) => {
   const response = await api.patch<{
     message: string;
     include_read: boolean;
-  }>('/user/config', { include_read: includeRead });
+  }>('/notices/config', { include_read: includeRead });
   return response.data;
 };
 

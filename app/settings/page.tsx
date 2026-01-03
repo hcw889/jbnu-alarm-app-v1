@@ -1,17 +1,12 @@
 'use client';
 
-import { getSortedCategoryGroups, getAllCategoryIds } from '@/lib/categories';
+import { getSortedCategoryGroups, getAllCategoryIds } from '@/theme/categories';
 import { useSelectedCategories } from '@/hooks/useSelectedCategories';
 import CategoryAccordion from '@/components/CategoryAccordion';
 
 export default function SettingsPage() {
-  const {
-    selectedCategories,
-    toggleCategory,
-    selectAll,
-    deselectAll,
-    isLoading,
-  } = useSelectedCategories();
+  const { selectedCategories, toggleCategory, selectAll, deselectAll, isLoading } =
+    useSelectedCategories();
 
   const categoryGroups = getSortedCategoryGroups();
 
@@ -46,12 +41,9 @@ export default function SettingsPage() {
 
         {/* 설명 */}
         <div className="shrink-0 bg-blue-50 px-5 py-3">
-          <p className="text-sm text-blue-700">
-            홈 화면에 표시할 알림 카테고리를 선택하세요
-          </p>
+          <p className="text-sm text-blue-700">홈 화면에 표시할 알림 카테고리를 선택하세요</p>
           <p className="mt-1 text-xs text-blue-600">
-            선택된 {selectedCategories.length}개 / 전체{' '}
-            {totalAvailableCategories}개
+            선택된 {selectedCategories.length}개 / 전체 {totalAvailableCategories}개
           </p>
         </div>
 
@@ -69,9 +61,7 @@ export default function SettingsPage() {
 
         {/* 안내 메시지 */}
         <div className="shrink-0 border-t border-gray-100 bg-gray-50 px-5 py-3">
-          <p className="text-center text-xs text-gray-400">
-            설정은 자동으로 저장됩니다
-          </p>
+          <p className="text-center text-xs text-gray-400">설정은 자동으로 저장됩니다</p>
         </div>
       </div>
     </div>

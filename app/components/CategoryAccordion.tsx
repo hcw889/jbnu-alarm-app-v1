@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { CategoryGroup } from '@/lib/categories';
+import { CategoryGroup } from '@/theme/categories';
 import CategoryBadge from './CategoryBadge';
 
 interface CategoryAccordionProps {

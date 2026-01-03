@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAllCategoryIds } from '@/lib/categories';
+import { getAllCategoryIds } from '@/theme/categories';
 
 const STORAGE_KEY = 'my_subscribed_categories'; // 온보딩과 동일한 키 사용
 

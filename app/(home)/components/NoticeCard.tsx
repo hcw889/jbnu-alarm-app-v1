@@ -1,7 +1,7 @@
-import { Notice } from '@/lib/api';
-import { THEME } from '@/lib/theme';
+import { Notice } from '@/api';
+import { THEME } from '@/theme/theme';
 import dayjs from 'dayjs';
-import CategoryBadge from './CategoryBadge';
+import CategoryBadge from '@/components/CategoryBadge';
 
 interface NoticeCardProps {
   notice: Notice;

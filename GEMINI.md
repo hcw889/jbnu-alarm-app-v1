@@ -2,23 +2,24 @@
 
 ## Project Overview
 
-This is a **Next.js 16** web application designed to serve as a mobile-friendly frontend for the "JBNU & CSAI Notice Alarm" system. It displays university notices and allows users to manually trigger a crawler to fetch the latest data.
+This is a **Next.js 16** web application designed to serve as a mobile-friendly frontend for the "JBNU & CSAI Notice Alarm" system. It displays university notices, manages read status, and allows users to subscribe to specific notice categories.
 
 ### Key Technologies
 
-- **Framework:** Next.js 16 (App Router)
+- **Framework:** Next.js 16.1.1 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4
-- **State/Data Fetching:** React Hooks (`useState`, `useEffect`), Axios
-- **Utilities:** Day.js (date formatting), React Icons
-- **Linting/Formatting:** ESLint, Prettier
+- **State Management:** React Hooks (`useState`, `useEffect`), Custom Hooks
+- **Data Fetching:** Axios
+- **Icons:** React Icons
+- **Date Handling:** Day.js
 
 ## Building and Running
 
 ### Prerequisites
 
 - Node.js (v20+ recommended)
-- npm or compatible package manager
+- npm
 - A running backend instance (expected at `http://localhost:8000`)
 
 ### Commands
@@ -31,33 +32,46 @@ This is a **Next.js 16** web application designed to serve as a mobile-friendly 
 | **Start Production**     | `npm run start` | Runs the built application.                             |
 | **Lint Code**            | `npm run lint`  | Runs ESLint to check for code quality issues.           |
 
-## Development Conventions
+## Architecture & Directory Structure
 
-### Directory Structure
+### Key Directories
 
 - `app/` - Contains the App Router pages and layouts.
-  - `page.tsx` - Main dashboard (notice list, tabs, refresh logic).
+  - `page.tsx` - Main dashboard (notice list, refresh logic, filtering).
   - `layout.tsx` - Root layout (HTML structure, fonts, global styles).
-  - `lib/` - Shared utilities.
-    - `api.ts` - Axios instance and API service functions.
-- `public/` - Static assets (images, icons).
+  - `settings/` - Settings page for category subscriptions.
+  - `components/` - Reusable UI components.
+    - `NoticeCard.tsx` - Individual notice item.
+    - `CategoryAccordion.tsx` - Grouped category selection UI.
+    - `CategoryBadge.tsx` - Visual badge for notice categories.
+    - `OnboardingModal.tsx` - Initial setup for new users.
+  - `lib/` - Shared utilities and API definitions.
+    - `api.ts` - Centralized API service functions.
+    - `categories.ts` - Category data and grouping logic.
+    - `theme.ts` - Theme constants (colors, styles).
+  - `hooks/` - Custom React hooks.
+    - `useSelectedCategories.ts` - Manages user's subscribed categories.
 
-### Architecture & patterns
+### Design Patterns
 
-- **API Communication:** All API calls are encapsulated in `app/lib/api.ts`. The app expects a REST API backend.
-- **Styling:** Uses Tailwind CSS utility classes. The design is mobile-first, using a centered `max-w-md` container to mimic a mobile app experience on desktop.
-- **Components:** This project currently uses a monolithic `page.tsx` for the main view. Future refactoring should consider breaking down the UI (Header, TabMenu, NoticeList) into smaller components.
-- **Path Aliases:** `@/*` is configured in `tsconfig.json` to resolve to `./app/*`.
+- **Mobile-First UI:** The application is designed with a centered `max-w-md` (expanding to `max-w-4xl` on desktop) container to simulate a mobile app experience.
+- **Optimistic Updates:** UI state updates immediately (e.g., marking as read, changing filters) before waiting for the API response to improve perceived performance.
+- **Componentization:** The UI is broken down into small, reusable components (Badges, Cards, Modals) rather than monolithic pages.
 
-### Linting & Formatting
+## API Integration
 
-- **ESLint:** configured in `eslint.config.mjs`. Includes strict import ordering and TypeScript best practices.
-- **Prettier:** configured in `prettier.config.js` (and `eslint-config-prettier`).
-- **Rule:** Always run `npm run lint` before committing.
+The frontend communicates with a backend server defined in `app/lib/api.ts` (default: `http://localhost:8000`).
 
-## Backend Dependency
+### Key Endpoints
 
-The frontend is hardcoded to communicate with `http://localhost:8000` in `app/lib/api.ts`.
+- `GET /notices`: Fetch notices with pagination and read-status filtering.
+- `POST /notices/crawl`: Manually trigger the notice crawler.
+- `POST /notices/:id/read`: Mark a specific notice as read.
+- `GET /user/config`: Fetch user preferences (e.g., include read notices).
+- `PATCH /user/config`: Update user preferences.
 
-- **Notices Endpoint:** `GET /notices?skip=0&limit=20`
-- **Crawl Trigger Endpoint:** `POST /notices/crawl`
+## Development Conventions
+
+- **Path Aliases:** Use `@/` to import from the `app/` directory.
+- **Linting:** Run `npm run lint` before committing to ensure code quality (ESLint + Prettier).
+- **Styling:** Use Tailwind CSS utility classes for all styling needs.

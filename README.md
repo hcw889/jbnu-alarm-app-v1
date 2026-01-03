@@ -34,7 +34,7 @@
 
 - Node.js v18 이상
 - npm 또는 yarn
-- **백엔드 서버:** 이 프론트엔드는 `http://localhost:8000`에서 실행되는 백엔드 API에 의존합니다.
+- **백엔드 서버:** 이 프론트엔드는 `http://localhost:8080`에서 실행되는 백엔드 API에 의존합니다.
 
 ### 2. 설치 (Installation)
 
@@ -48,49 +48,55 @@ npm install
 
 ### 3. 프로젝트 설정 (Configuration)
 
-현재 API 엔드포인트는 코드 내에 하드코딩되어 있습니다. 백엔드 주소가 다르다면 아래 파일을 수정하세요.
+환경 변수 파일을 통해 API 주소를 관리합니다. 프로젝트 루트에 있는 `.env.development`와 `.env.production` 파일을 수정하여 각 환경에 맞는 백엔드 주소를 설정할 수 있습니다.
 
-- **파일 위치:** `app/lib/api.ts`
+- **개발 환경 (.env.development):** `http://localhost:8080`
+- **배포 환경 (.env.production):** `http://113.198.66.75:10230`
 
-```typescript
-// app/lib/api.ts
-const API_BASE_URL = 'http://localhost:8000'; // 이 부분을 본인의 백엔드 주소로 변경
-```
+### 4. 실행 및 배포 (Run & Deployment)
 
-### 4. 실행 (Run)
-
-개발 서버를 실행합니다.
+**개발 서버 실행:**
 
 ```bash
 npm run dev
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속하여 확인합니다.
+**배포용 빌드 및 실행:**
+
+```bash
+# 빌드 시 .env.production 설정이 적용됩니다.
+npm run build
+npm run start
+```
 
 ## 📂 폴더 구조 (Directory Structure)
 
 ```
 jbnu-alarm-app-v1/
 ├── app/
-│   ├── layout.tsx      # 전역 레이아웃 (폰트, 메타데이터)
-│   ├── page.tsx        # 메인 페이지 (UI 로직, 상태 관리)
-│   ├── globals.css     # Tailwind 지시어 및 전역 스타일
-│   └── lib/
-│       └── api.ts      # Axios 인스턴스 및 API 호출 함수 모음
-├── public/             # 정적 에셋 (아이콘, 이미지)
-├── eslint.config.mjs   # ESLint 설정
-├── tailwind.config.js  # Tailwind 설정
-└── tsconfig.json       # TypeScript 설정
+│   ├── (home)/         # 홈 화면 (공지사항 리스트)
+│   ├── settings/       # 설정 화면 (카테고리 구독)
+│   ├── api/            # API 호출 함수 (Axios 설정)
+│   ├── components/     # 재사용 가능한 UI 컴포넌트
+│   ├── hooks/          # 커스텀 React Hooks
+│   ├── lib/            # 유틸리티 및 상수
+│   ├── layout.tsx      # 전역 레이아웃
+│   └── globals.css     # 전역 스타일
+├── .env.development    # 개발용 환경 변수
+└── .env.production     # 배포용 환경 변수
 ```
 
 ## 🔗 API 연동 규격
 
-프론트엔드는 다음 백엔드 API가 필요합니다.
+프론트엔드는 다음 백엔드 API 규격을 따릅니다.
 
-| Method | Endpoint | Description |
-|Data | ------ | ----------- |
-| `GET` | `/notices?skip=0&limit=100` | 공지사항 목록 조회 |
-| `POST` | `/notices/crawl` | 크롤러 수동 트리거 요청 |
+| Method  | Endpoint             | Description                                                  |
+| :------ | :------------------- | :----------------------------------------------------------- |
+| `GET`   | `/notices`           | 공지사항 목록 조회 (params: `skip`, `limit`, `include_read`) |
+| `POST`  | `/notices/crawl`     | 크롤러 수동 트리거 요청                                      |
+| `POST`  | `/notices/{id}/read` | 특정 공지사항 읽음 처리                                      |
+| `GET`   | `/notices/config`    | 사용자 설정 정보 조회 (읽은 공지 포함 여부 등)               |
+| `PATCH` | `/notices/config`    | 사용자 설정 업데이트                                         |
 
 ## 🤝 기여하기 (Contributing)
 
