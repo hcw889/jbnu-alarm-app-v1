@@ -92,13 +92,13 @@ jbnu-alarm-app-v1/
 
 프론트엔드는 다음 백엔드 API 규격을 따릅니다.
 
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/notices` | 공지사항 목록 조회 (params: `skip`, `limit`, `include_read`) |
-| `POST` | `/notices/crawl` | 크롤러 수동 트리거 요청 |
-| `POST` | `/notices/{id}/read` | 특정 공지사항 읽음 처리 |
-| `GET` | `/user/config` | 사용자 설정 정보 조회 (읽은 공지 포함 여부 등) |
-| `PATCH` | `/user/config` | 사용자 설정 업데이트 |
+| Method  | Endpoint             | Description                                                  |
+| :------ | :------------------- | :----------------------------------------------------------- |
+| `GET`   | `/notices`           | 공지사항 목록 조회 (params: `skip`, `limit`, `include_read`) |
+| `POST`  | `/notices/crawl`     | 크롤러 수동 트리거 요청                                      |
+| `POST`  | `/notices/{id}/read` | 특정 공지사항 읽음 처리                                      |
+| `GET`   | `/user/config`       | 사용자 설정 정보 조회 (읽은 공지 포함 여부 등)               |
+| `PATCH` | `/user/config`       | 사용자 설정 업데이트                                         |
 
 ## 🤝 기여하기 (Contributing)
 
@@ -115,18 +115,20 @@ jbnu-alarm-app-v1/
 실제 운영 서버에 배포하는 절차입니다.
 
 ### 1. 서버 접속
+
 ```bash
 ssh -i [local PEM키 경로] -p 19230 ubuntu@113.198.66.75
 ```
 
 ### 2. 프론트엔드 배포 (Frontend)
+
 ```bash
 cd ~/jbnu-alarm-app-v1
 git pull origin main
 
 # Github 인증 필요 시:
-# Username: Zeroone012025
-# Password: (GitHub Classic Token 입력)
+Username: Zeroone012025
+Password: (GitHub Classic Token 입력)
 
 # 프로세스 중지 및 빌드
 pm2 stop jbnu-alarm-app
@@ -134,17 +136,9 @@ npm install
 npm run build
 
 # 정상 작동 테스트 (선택 사항)
-# npm run start
+npm run start
 
 # 프로세스 재시작 및 확인
 pm2 restart jbnu-alarm-app
 pm2 list
-```
-
-### 3. 백엔드 업데이트 (참고용)
-```bash
-cd ~/jbnu-alarm-api-v1
-git pull origin main
-source venv/bin/activate
-pm2 restart jbnu-alarm-api
 ```
