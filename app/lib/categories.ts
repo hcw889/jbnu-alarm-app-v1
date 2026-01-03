@@ -96,7 +96,14 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
     id: 'college',
     label: '단과대',
     order: 2,
-    children: [], // 준비 중 (예: college_eng, college_biz)
+    children: [
+      {
+        id: 'college_eng',  // Backend와 일치 (Prefix: college_)
+        label: '공과대학',
+        color: COLOR_PALETTE[3], // rose
+        available: true,
+      },
+    ],
   },
   {
     id: 'department',

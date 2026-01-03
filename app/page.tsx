@@ -35,7 +35,8 @@ export default function Home() {
     setLoading(true);
     try {
       // Backend 필터링: includeRead 파라미터로 읽은 공지 제외/포함
-      const data = await fetchNotices(0, 100, includeRead);
+      // IMPORTANT: limit 200으로 증가 (날짜순 정렬 시 공과대학 공지가 밀리는 문제 방지)
+      const data = await fetchNotices(0, 200, includeRead);
       setNotices(data);
     } catch (error) {
       console.error('Failed to load notices', error);
