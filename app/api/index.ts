@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 5000, // 5초 이상 응답 없으면 에러
+  timeout: 10000, // 10초 이상 응답 없으면 에러
   headers: {
     'Content-Type': 'application/json',
   },
