@@ -15,8 +15,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isDev = process.env.SITE_ENV === "dev";
+
   return (
     <html lang="ko">
+      <head>
+        {isDev && <meta name="robots" content="noindex, nofollow" />}
+      </head>
       <body className={`${inter.className} flex h-screen flex-col bg-gray-50 text-gray-900`}>
         <main className="flex-1 overflow-hidden">
           {children}
